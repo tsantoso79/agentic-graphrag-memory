@@ -1,0 +1,20 @@
+# Versions this system runs with (Python 3.13)
+psycopg2-binary==2.9.11
+model2vec==0.7.0
+numpy==2.2.6
+# Knowledge graph layer
+lightrag-hku==1.4.12          # pinned: lightrag_kb.py patches library internals
+asyncpg==0.31.0
+networkx==3.4.2
+sentence-transformers==5.3.0
+onnxruntime==1.22.1
+google-genai==1.63.0
+anthropic==0.83.0
+# Document conversion
+PyMuPDF==1.27.1
+pymupdf4llm==0.3.4
+# Dashboards and process tools
+streamlit==1.45.1
+plotly==5.24.1
+pandas==2.2.3
+psutil==5.9.0

@@ -1,0 +1,38 @@
+{
+  "env": {
+    "AGENT_MEMORY_DB_URI": "postgresql://USER:PASSWORD@localhost:5432/agent_memory",
+    "AGENT_ID": "my-agent"
+  },
+  "hooks": {
+    "SessionStart": [
+      { "hooks": [{ "type": "command", "command": "python ~/.claude/memory/memory_helper.py startup", "timeout": 15 }] }
+    ],
+    "PreToolUse": [
+      { "matcher": "WebFetch", "hooks": [{ "type": "command", "command": "python ~/.claude/memory/memory_helper.py tool-recall", "timeout": 3 }] }
+    ],
+    "PostToolUse": [
+      { "matcher": "Bash|Edit|Write|Agent|WebFetch|mcp__.*", "hooks": [{ "type": "command", "command": "python ~/.claude/memory/memory_helper.py error-store", "timeout": 3 }] }
+    ],
+    "PostToolUseFailure": [
+      { "matcher": "Bash|Edit|Write|Agent|WebFetch|mcp__.*", "hooks": [{ "type": "command", "command": "python ~/.claude/memory/memory_helper.py error-store", "timeout": 3 }] }
+    ],
+    "SessionEnd": [
+      { "hooks": [{ "type": "command", "command": "python ~/.claude/memory/memory_helper.py session-end", "timeout": 60 }] }
+    ],
+    "UserPromptSubmit": [
+      { "hooks": [{ "type": "command", "command": "python ~/.claude/memory/memory_helper.py turn-recall", "timeout": 5 }] }
+    ],
+    "Stop": [
+      { "hooks": [{ "type": "command", "command": "python ~/.claude/memory/tracer/trace_hook.py stop", "timeout": 2 }] }
+    ],
+    "SubagentStart": [
+      { "hooks": [{ "type": "command", "command": "python ~/.claude/memory/tracer/trace_hook.py subagent-start", "timeout": 2 }] }
+    ],
+    "SubagentStop": [
+      { "hooks": [{ "type": "command", "command": "python ~/.claude/memory/tracer/trace_hook.py subagent-stop", "timeout": 2 }] }
+    ],
+    "PreCompact": [
+      { "hooks": [{ "type": "command", "command": "python ~/.claude/memory/tracer/trace_hook.py compact-start", "timeout": 2 }] }
+    ]
+  }
+}
